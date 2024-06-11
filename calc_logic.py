@@ -1,20 +1,26 @@
+import re
 _incom_text = input('Введите выражение:')
-result = None
-income_digits = []
-MATH_SYMBOL = None
-digits = []
-symbols = ['//', '*', '+', '-']
-for symb in symbols:
-    if symb in _incom_text:
-        MATH_SYMBOL = symb
-        income_digits = _incom_text.split(MATH_SYMBOL)
-        break
-match MATH_SYMBOL:
-    case '//':
-        print(int(income_digits[0]) // int(income_digits[1]))
-    case '*':
-        print(int(income_digits[0]) * int(income_digits[1]))
-    case '+':
-        print(int(income_digits[0]) + int(income_digits[1]))
-    case '-':
-        print(int(income_digits[0]) - int(income_digits[1]))
+all_symbols = ['//', '*', '+', '-', '**', '/', '%']
+regex_str = '|'.join(re.escape(symbol) for symbol in all_symbols)
+income_digits = re.split(regex_str, _incom_text)
+actual_symbols = re.findall(regex_str, _incom_text)
+result = int(income_digits.pop(0))
+while actual_symbols:
+    actual_symbol = actual_symbols.pop(0)
+    actual_operand = int(income_digits.pop(0))
+    match actual_symbol:
+        case '//':
+            result //= actual_operand
+        case '*':
+            result *= actual_operand
+        case '+':
+            result += actual_operand
+        case '-':
+            result -= actual_operand
+        case '**':
+            result **= actual_operand
+        case '/':
+            result /= actual_operand
+        case '%':
+            result %= actual_operand
+print(result)
