@@ -1,8 +1,12 @@
+# библиотека для работы с регулярными выражениями
 import re
 _incom_text = input('Введите выражение:')
-all_symbols = ['//', '*', '+', '-', '**', '/', '%']
-regex_str = '|'.join(re.escape(symbol) for symbol in all_symbols)
+ALL_SYMBOLS = ['//', '*', '+', '-', '**', '/', '%']
+# экранируем специальные символы, добавляем их в строку, разделяя знаком '|' (или)
+regex_str = '|'.join(re.escape(symbol) for symbol in ALL_SYMBOLS)
+# создаем список из введенных чисел (делим по символам операндов из regex_str)
 income_digits = re.split(regex_str, _incom_text)
+# создаем список из введенных операндов, добавляя их в заданной последовательности
 actual_symbols = re.findall(regex_str, _incom_text)
 result = int(income_digits.pop(0))
 while actual_symbols:
